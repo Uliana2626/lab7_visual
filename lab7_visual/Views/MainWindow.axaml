@@ -1,0 +1,85 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:lab7_visual.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:model="using:lab7_visual.Models"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="lab7_visual.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="lab7_visual">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+  <Window.Styles>
+    <StyleInclude Source="/Styles/Style.axaml"/>
+  </Window.Styles>
+
+  <Grid Name="MainGrid" ColumnDefinitions="*" RowDefinitions="25, *, 50, 50">
+    <DockPanel Grid.Column="0" Grid.Row="0">
+      <Menu DockPanel.Dock="Top" VerticalAlignment="Top">
+        <MenuItem Header="File">
+          <MenuItem Name="SaveBtn" Header="Save"/>
+          <MenuItem Name="LoadBtn" Header="Load"/>
+          <MenuItem Name="ExitBtn" Header="Exit"/>
+        </MenuItem>
+        <MenuItem Name="AboutBtn" Click="AboutPage" Header="About"/>
+      </Menu>
+    </DockPanel>
+
+    <DataGrid Name="Table" Items="{Binding StudentList}" Grid.Column="0" Grid.Row="1" CanUserReorderColumns="False">
+      <DataGrid.Columns>
+        <DataGridTemplateColumn Header="ФИО" Width="*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="model:Student">
+              <TextBox Watermark="Введите ФИО" Classes="gridTextBox" Text="{Binding Fio}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Информатика" Width="*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="model:Student">
+              <TextBox Classes="gridTextBox" Background="{Binding ItemList[0].Color}" LostFocus="CellEdited" Text="{Binding ItemList[0].Score}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Визуальное Программирование" Width="*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="model:Student">
+              <TextBox Classes="gridTextBox" Background="{Binding ItemList[1].Color}" LostFocus="CellEdited" Text="{Binding ItemList[1].Score}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="ООП" Width="*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="model:Student">
+              <TextBox Classes="gridTextBox" Background="{Binding ItemList[2].Color}" LostFocus="CellEdited" Text="{Binding ItemList[2].Score}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Средний балл" Width="*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="model:Student">
+              <TextBox Classes="gridTextBox gridTextBlock" Background="{Binding AverageColor}" Text="{Binding Average}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsSelected}" Width="*"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <Grid ShowGridLines="False" ColumnDefinitions="*, *, *, *, *, *" RowDefinitions="*" Grid.Column="0" Grid.Row="2">
+      <TextBox Classes="gridTextBox gridTextBlock" FontSize="18" Grid.Column="0" Background="Pink" Text="Средний балл в группе"/>
+      <TextBox Classes="gridTextBox gridTextBlock" Grid.Column="1" Background="{Binding ItemsAverageList[0].Color}" Text="{Binding ItemsAverageList[0].Score}"/>
+      <TextBox Classes="gridTextBox gridTextBlock" Grid.Column="2" Background="{Binding ItemsAverageList[1].Color}" Text="{Binding ItemsAverageList[1].Score}"/>
+      <TextBox Classes="gridTextBox gridTextBlock" Grid.Column="3" Background="{Binding ItemsAverageList[2].Color}" Text="{Binding ItemsAverageList[2].Score}"/>
+    </Grid>
+
+    <Grid Name="GridButtons" ColumnDefinitions="*, *" RowDefinitions="50" Grid.Column="0" Grid.Row="3">
+      <Button Classes="gridBtn" Command="{Binding Add}" Content="Добавить студента" Grid.Column="0"/>
+      <Button Classes="gridBtn" Command="{Binding Remove}" Content="Удалить выбранные" Grid.Column="1"/>
+    </Grid>
+  </Grid>
+</Window>
